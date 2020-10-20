@@ -6,4 +6,8 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Title = styled.Text``;
+export const Title = styled.Text`
+  font-family: 'Gruppo-Regular';
+  font-size: 64px;
+  color: #FFFFFF;
+`;

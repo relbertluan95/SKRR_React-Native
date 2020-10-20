@@ -5,7 +5,7 @@ import { Container, Title } from './styles';
 const SignIn: React.FC = () => {
   return (
     <Container>
-      <Title>SignIn</Title>
+      <Title>SKRR</Title>
     </Container>
   );
 }
