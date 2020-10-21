@@ -1,11 +1,65 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native'
 
-import { Container, Title } from './styles';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
+
+import {
+  Container,
+  Title,
+  Passwords,
+  Footer,
+  FooterText,
+  FooterButton,
+} from './styles';
 
 const SignUp: React.FC = () => {
+  const navigation = useNavigation();
+
   return (
     <Container>
-      <Title>SignUp</Title>
+      <Title>Cadastra-se</Title>
+
+      <Input
+        name="name"
+        icon="user"
+        placeholder="Nome Completo"
+        autoCapitalize='words'
+        autoCorrect={false}
+      />
+
+      <Input
+        name="email"
+        icon="mail"
+        placeholder="E-mail"
+        keyboardType="email-address"
+        autoCapitalize='none'
+        autoCorrect={false}
+      />
+
+      <Passwords>
+        <Input
+          name="password"
+          icon="lock"
+          placeholder="Senha"
+
+        />
+
+        <Input
+          name="comfir-password"
+          icon="lock"
+          placeholder="Confirmar senha"
+
+        />
+      </Passwords>
+
+      <Button>Criar conta</Button>
+
+      <Footer>
+        <FooterButton>
+          <FooterText onPress={() => navigation.goBack()} >Já tenho conta!</FooterText>
+        </FooterButton>
+      </Footer>
     </Container>
   );
 }

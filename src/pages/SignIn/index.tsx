@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native'
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -15,12 +16,25 @@ import {
 } from './styles';
 
 const SignIn: React.FC = () => {
+  const navigation = useNavigation();
+
   return (
     <Container>
       <Title>SKRR</Title>
 
-      <Input name="email" icon="mail" placeholder="E-mail" />
-      <Input name="password" icon="lock" placeholder="Senha" />
+      <Input
+        name="email"
+        icon="mail"
+        placeholder="E-mail"
+        keyboardType="email-address"
+        autoCapitalize='none'
+        autoCorrect={false}
+      />
+      <Input
+        name="password"
+        icon="lock"
+        placeholder="Senha"
+      />
 
       <Button>Entrar</Button>
       <ForgotPass>
@@ -29,7 +43,7 @@ const SignIn: React.FC = () => {
 
       <Footer>
         <FooterText>Ainda não tem conta?</FooterText>
-        <FooterButton>
+        <FooterButton onPress={() => navigation.navigate('SignUp')}>
           <FooterButtonText>Criar conta</FooterButtonText>
         </FooterButton>
       </Footer>
