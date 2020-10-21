@@ -39,7 +39,7 @@ const Input: React.FC<InputProps> = ({name, icon, ...rest}) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container>
+    <Container isErrored={!!error}>
       <Icon name={icon} size={20} color="#666360" />
       <TextInput
         ref={inputElementRef}
