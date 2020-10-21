@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   padding: 0 20px;
 `;
 
@@ -13,6 +13,7 @@ export const Title = styled.Text`
   color: #FFFFFF;
 
   margin-bottom: 20px;
+  text-align: center;
 `;
 
 export const ForgotPass = styled.TouchableOpacity`
@@ -36,6 +37,8 @@ export const FooterText= styled.Text`
   font-family: 'Gruppo-Regular';
   font-size: 24px;
   color: #eee;
+
+  text-align: center;
 `;
 
 export const FooterButton= styled.TouchableOpacity`
