@@ -1,8 +1,11 @@
-import React, { useCallback, useRef } from 'react';
-import { useNavigation } from '@react-navigation/native'
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable react/jsx-closing-bracket-location */
+/* eslint-disable no-unused-expressions */
+import React, {useCallback, useRef} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/mobile';
+import {FormHandles} from '@unform/core';
+import {Form} from '@unform/mobile';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -21,8 +24,8 @@ const SignUp: React.FC = () => {
   const navigation = useNavigation();
 
   const handleSignUp = useCallback((data: object) => {
-    console.log(data)
-  }, [])
+    console.log(data);
+  }, []);
 
   return (
     <Container>
@@ -33,7 +36,7 @@ const SignUp: React.FC = () => {
           name="name"
           icon="user"
           placeholder="Nome Completo"
-          autoCapitalize='words'
+          autoCapitalize="words"
           autoCorrect={false}
         />
 
@@ -42,7 +45,7 @@ const SignUp: React.FC = () => {
           icon="mail"
           placeholder="E-mail"
           keyboardType="email-address"
-          autoCapitalize='none'
+          autoCapitalize="none"
           autoCorrect={false}
         />
 
@@ -51,29 +54,34 @@ const SignUp: React.FC = () => {
             name="password"
             icon="lock"
             placeholder="Senha"
-
+            secureTextEntry
           />
 
           <Input
             name="comfirm-password"
             icon="lock"
             placeholder="Confirmar senha"
-
+            secureTextEntry
           />
         </Passwords>
 
-        <Button onPress={() => {
-          formRef.current?.submitForm();
-        }}>Criar conta</Button>
+        <Button
+          onPress={() => {
+            formRef.current?.submitForm();
+          }}>
+          Criar conta
+        </Button>
       </Form>
 
       <Footer>
         <FooterButton>
-          <FooterText onPress={() => navigation.goBack()} >Já tenho conta!</FooterText>
+          <FooterText onPress={() => navigation.goBack()}>
+            Já tenho conta!
+          </FooterText>
         </FooterButton>
       </Footer>
     </Container>
   );
-}
+};
 
 export default SignUp;

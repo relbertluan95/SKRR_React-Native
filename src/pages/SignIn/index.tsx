@@ -1,8 +1,11 @@
-import React, { useCallback, useRef } from 'react';
-import { useNavigation } from '@react-navigation/native'
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable react/jsx-closing-bracket-location */
+/* eslint-disable no-unused-expressions */
+import React, {useCallback, useRef} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/mobile';
+import {FormHandles} from '@unform/core';
+import {Form} from '@unform/mobile';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -15,7 +18,7 @@ import {
   Footer,
   FooterText,
   FooterButton,
-  FooterButtonText
+  FooterButtonText,
 } from './styles';
 
 const SignIn: React.FC = () => {
@@ -23,8 +26,8 @@ const SignIn: React.FC = () => {
   const navigation = useNavigation();
 
   const handleSignIn = useCallback((data: object) => {
-    console.log(data)
-  }, [])
+    console.log(data);
+  }, []);
 
   return (
     <Container>
@@ -36,18 +39,22 @@ const SignIn: React.FC = () => {
           icon="mail"
           placeholder="E-mail"
           keyboardType="email-address"
-          autoCapitalize='none'
+          autoCapitalize="none"
           autoCorrect={false}
         />
         <Input
           name="password"
           icon="lock"
           placeholder="Senha"
+          secureTextEntry
         />
 
-        <Button onPress={() => {
-          formRef.current?.submitForm();
-        }}>Entrar</Button>
+        <Button
+          onPress={() => {
+            formRef.current?.submitForm();
+          }}>
+          Entrar
+        </Button>
       </Form>
 
       <ForgotPass>
@@ -62,6 +69,6 @@ const SignIn: React.FC = () => {
       </Footer>
     </Container>
   );
-}
+};
 
 export default SignIn;

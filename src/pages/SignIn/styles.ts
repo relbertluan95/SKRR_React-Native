@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const Title = styled.Text`
   font-family: 'Gruppo-Regular';
   font-size: 64px;
-  color: #FFFFFF;
+  color: #ffffff;
 
   margin-bottom: 20px;
   text-align: center;
@@ -28,12 +28,11 @@ export const ForgotPassText = styled.Text`
   color: #eee;
 `;
 
-
 export const Footer = styled.View`
   margin-top: 40px;
 `;
 
-export const FooterText= styled.Text`
+export const FooterText = styled.Text`
   font-family: 'Gruppo-Regular';
   font-size: 24px;
   color: #eee;
@@ -41,12 +40,12 @@ export const FooterText= styled.Text`
   text-align: center;
 `;
 
-export const FooterButton= styled.TouchableOpacity`
+export const FooterButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export const FooterButtonText= styled.Text`
+export const FooterButtonText = styled.Text`
   font-family: 'Gruppo-Regular';
   font-size: 22px;
-  color: #B7730E;
+  color: #b7730e;
 `;
