@@ -1,16 +1,32 @@
-import React from 'react';
-import {StatusBar} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StatusBar, Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Feather';
 
 import {
   Container,
   Header,
   HeaderText,
+  ProfileButton,
   Name,
   HeaderButton,
   HeaderButtonText,
 } from './styles';
 
 const Dashboard: React.FC = () => {
+  const navigation = useNavigation();
+  const [userWidth, setUserWidth] = useState<number>(0);
+
+  useEffect(() => {
+    function loadDimensions() {
+      const {width} = Dimensions.get('screen');
+
+      setUserWidth(width - 80);
+    }
+
+    loadDimensions();
+  }, []);
+
   return (
     <Container>
       <StatusBar backgroundColor="#33323c" barStyle="light-content" />
@@ -18,9 +34,12 @@ const Dashboard: React.FC = () => {
         <HeaderText>
           Seja bem vindo,
           {'\n'}
-          <Name>Relbert Luan</Name>
+          <ProfileButton onPress={() => navigation.navigate('Profile')}>
+            <Name userWidth={userWidth}>Relbert Luan Almeida de Queiroz</Name>
+            <Icon name="edit" size={14} color="#eee" />
+          </ProfileButton>
         </HeaderText>
-        <HeaderButton>
+        <HeaderButton onPress={() => navigation.navigate('Favorites')}>
           <HeaderButtonText>Meus Favoritos</HeaderButtonText>
         </HeaderButton>
       </Header>

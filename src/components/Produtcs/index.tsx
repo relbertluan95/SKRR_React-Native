@@ -17,7 +17,7 @@ const Produtcs: React.FC<DataProps> = ({data}: DataProps) => {
   return (
     <Container>
       {data.map((item) => (
-        <Button onPress={() => navigation.navigate('ProdutcDetais', item)}>
+        <Button onPress={() => navigation.navigate('ProductDetails', item)}>
           <Icon
             name="heart"
             size={28}

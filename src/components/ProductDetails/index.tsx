@@ -17,7 +17,7 @@ import {
   TextDescription,
 } from './styles';
 
-const ProductDetais: React.FC = ({route}) => {
+const ProductDetails: React.FC = ({route}) => {
   const {title, url} = route.params;
   const navigation = useNavigation();
   return (
@@ -62,4 +62,4 @@ const ProductDetais: React.FC = ({route}) => {
   );
 };
 
-export default ProductDetais;
+export default ProductDetails;

@@ -5,13 +5,15 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import Profile from '../pages/Profile';
 
 import Dashboard from '../pages/Dashboard';
 
 import Tshirt from '../pages/Tshirt';
 import Pants from '../pages/Pants';
 
-import ProdutcDetais from '../components/ProductDetais';
+import ProductDetails from '../components/ProductDetails';
+import Favorites from '../pages/Favorites';
 
 const Auth = createStackNavigator();
 const Tabs = createMaterialTopTabNavigator();
@@ -25,6 +27,7 @@ const AuthRoutes: React.FC = () => (
     initialRouteName="Dashboard">
     <Auth.Screen name="SignIn" component={SignIn} />
     <Auth.Screen name="SignUp" component={SignUp} />
+    <Auth.Screen name="Profile" component={Profile} />
 
     <Auth.Screen
       name="Dashboard"
@@ -38,7 +41,8 @@ const AuthRoutes: React.FC = () => (
       }}
     />
 
-    <Auth.Screen name="ProdutcDetais" component={ProdutcDetais} />
+    <Auth.Screen name="ProductDetails" component={ProductDetails} />
+    <Auth.Screen name="Favorites" component={Favorites} />
   </Auth.Navigator>
 );
 
