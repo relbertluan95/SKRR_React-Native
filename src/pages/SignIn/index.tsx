@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable no-unused-expressions */
-import React, {useCallback, useRef, useEffect} from 'react';
-import {Alert} from 'react-native';
+import React, {useCallback, useRef, useEffect, useState} from 'react';
+import {Alert, ActivityIndicator} from 'react-native';
 
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
@@ -34,38 +34,78 @@ interface SignInFormData {
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
-  const handleSignIn = useCallback(async (data: SignInFormData) => {
-    const {email, password} = data;
-    try {
-      formRef.current?.setErrors({});
+  const handleSignIn = useCallback(
+    async (data: SignInFormData) => {
+      const {email, password} = data;
+      setLoading(true);
 
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .email('Email inválido')
-          .required('O email e obrigatório'),
-        password: Yup.string().min(
-          6,
-          'Senha obrigatório, minino de 6 caracteres',
-        ),
-      });
+      try {
+        formRef.current?.setErrors({});
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .email('Email inválido')
+            .required('O email e obrigatório'),
+          password: Yup.string().min(
+            6,
+            'Senha obrigatório, minino de 6 caracteres',
+          ),
+        });
 
-      await auth().signInWithEmailAndPassword(email, password);
-      navigation.navigate('Dashboard');
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErros(err);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-        formRef.current?.setErrors(errors);
+        await auth()
+          .signInWithEmailAndPassword(email, password)
+          .then(() => {
+            navigation.navigate('Dashboard');
+            setLoading(false);
+          })
+          .catch((error) => {
+            switch (error.code) {
+              case 'auth/wrong-password':
+                Alert.alert(
+                  'Erro na autenticação',
+                  'A senha informada está incorreta!',
+                );
+                setLoading(false);
+                break;
+              case 'auth/too-many-requests':
+                Alert.alert(
+                  'Erro na autenticação',
+                  'O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login mal sucedidas. Você pode restaurá-lo imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.',
+                );
+                setLoading(false);
+                break;
+              case 'auth/user-not-found':
+                Alert.alert(
+                  'Erro na autenticação',
+                  'O usuário informado não existe, verifique o email informado!',
+                );
+                setLoading(false);
+                break;
 
-        Alert.alert('Erro na autenticação', 'Verifique os dados informados!');
+              default:
+                break;
+            }
+          });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErros(err);
+
+          formRef.current?.setErrors(errors);
+
+          Alert.alert('Erro na autenticação', 'Verifique os dados informados!');
+
+          setLoading(false);
+        }
       }
-    }
-  }, []);
+    },
+    [navigation],
+  );
 
   useEffect(() => {
     async function loadUser() {
@@ -102,11 +142,15 @@ const SignIn: React.FC = () => {
           onPress={() => {
             formRef.current?.submitForm();
           }}>
-          Entrar
+          {loading ? (
+            <ActivityIndicator size="large" color="#a5a7ad" />
+          ) : (
+            'Entrar'
+          )}
         </Button>
       </Form>
 
-      <ForgotPass>
+      <ForgotPass onPress={() => navigation.navigate('ResetPassword')}>
         <ForgotPassText>Esqueci minha senha</ForgotPassText>
       </ForgotPass>
 

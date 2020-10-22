@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable no-unused-expressions */
-import React, {useCallback, useRef} from 'react';
-import {Alert} from 'react-native';
+import React, {useCallback, useRef, useState} from 'react';
+import {Alert, ActivityIndicator} from 'react-native';
 import auth from '@react-native-firebase/auth';
 
 import {useNavigation} from '@react-navigation/native';
@@ -34,47 +34,70 @@ interface SignUpFormData {
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
-  const handleSignUp = useCallback(async (data: SignUpFormData) => {
-    const {email, password, name} = data;
-    try {
-      formRef.current?.setErrors({});
+  const handleSignUp = useCallback(
+    async (data: SignUpFormData) => {
+      const {email, password, name} = data;
+      setLoading(true);
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        name: Yup.string().required(),
-        email: Yup.string()
-          .email('Email inválido')
-          .required('O email e obrigatório'),
-        password: Yup.string().min(
-          6,
-          'Senha obrigatório, minino de 6 caracteres',
-        ),
-        confirmPassword: Yup.string().when('password', (password, field) =>
-          password ? field.required().oneOf([Yup.ref('password')]) : field,
-        ),
-      });
+        const schema = Yup.object().shape({
+          name: Yup.string().required(),
+          email: Yup.string()
+            .email('Email inválido')
+            .required('O email e obrigatório'),
+          password: Yup.string().min(
+            6,
+            'Senha obrigatório, minino de 6 caracteres',
+          ),
+          confirmPassword: Yup.string().when('password', (password, field) =>
+            password ? field.required().oneOf([Yup.ref('password')]) : field,
+          ),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      await (
-        await auth().createUserWithEmailAndPassword(email, password)
-      ).user.updateProfile({displayName: name});
+        await auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            auth().currentUser?.updateProfile({displayName: name});
 
-      Alert.alert('Conta criada', 'Você já pode fazer login no App!');
+            navigation.navigate('Dashboard');
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log(error);
 
-      navigation.navigate('Dashboard');
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErros(err);
+            switch (error.code) {
+              case 'auth/email-already-in-use':
+                Alert.alert(
+                  'Erro ao criar conta',
+                  'O email informado já existe',
+                );
+                setLoading(false);
+                break;
+              default:
+                break;
+            }
+          });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErros(err);
 
-        formRef.current?.setErrors(errors);
+          formRef.current?.setErrors(errors);
 
-        Alert.alert('Erro ao criar conta', 'Verifique os dados informados!');
+          Alert.alert('Erro ao criar conta', 'Verifique os dados informados!');
+
+          setLoading(false);
+        }
       }
-    }
-  }, []);
+    },
+    [navigation],
+  );
 
   return (
     <Container>
@@ -118,7 +141,11 @@ const SignUp: React.FC = () => {
           onPress={() => {
             formRef.current?.submitForm();
           }}>
-          Criar conta
+          {loading ? (
+            <ActivityIndicator size="large" color="#a5a7ad" />
+          ) : (
+            'Criar conta'
+          )}
         </Button>
       </Form>
 

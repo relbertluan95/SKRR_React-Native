@@ -7,6 +7,7 @@ import auth from '@react-native-firebase/auth';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import Profile from '../pages/Profile';
+import ResetPassword from '../pages/ResetPassword';
 
 import Dashboard from '../pages/Dashboard';
 
@@ -34,6 +35,7 @@ const AuthRoutes: React.FC = () => (
     <Auth.Screen name="SignIn" component={SignIn} />
     <Auth.Screen name="SignUp" component={SignUp} />
     <Auth.Screen name="Profile" component={Profile} />
+    <Auth.Screen name="ResetPassword" component={ResetPassword} />
 
     <Auth.Screen
       name="Dashboard"
