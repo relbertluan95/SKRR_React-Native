@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import {StatusBar} from 'react-native';
 import {useNavigation} from '@react-navigation/native';

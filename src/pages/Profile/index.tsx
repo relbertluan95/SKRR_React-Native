@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable no-unused-expressions */
 import React, {useCallback, useRef, useState} from 'react';
@@ -39,7 +40,7 @@ const Profile: React.FC = () => {
   }, [navigation]);
 
   const handleSubmit = useCallback(async (data: EditFormData) => {
-    const {password, confirmPassword} = data;
+    const {password} = data;
     setLoading(true);
     try {
       formRef.current?.setErrors({});

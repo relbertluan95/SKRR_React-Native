@@ -22,38 +22,41 @@ const ResetPassword: React.FC = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
 
-  const resetPassword = useCallback(async (data: DataProps) => {
-    const {email} = data;
-    setLoading(true);
-    Alert.alert(
-      'Sucesso ao recuperar senha',
-      'Enviamos um email para você, cheque seus email!',
-    );
-    navigation.goBack();
-    await auth()
-      .sendPasswordResetEmail(email)
-      .then(() => {
-        // Sucess
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
+  const resetPassword = useCallback(
+    async (data: DataProps) => {
+      const {email} = data;
+      setLoading(true);
+      Alert.alert(
+        'Sucesso ao recuperar senha',
+        'Enviamos um email para você, cheque seus email!',
+      );
+      navigation.goBack();
+      await auth()
+        .sendPasswordResetEmail(email)
+        .then(() => {
+          // Sucess
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
 
-        switch (error.code) {
-          case 'auth/invalid-email':
-            Alert.alert('Erro', 'O formato do email não e válido');
-            setLoading(false);
-            break;
-          case 'auth/user-not-found':
-            Alert.alert('Erro', 'O email informado não existe');
-            setLoading(false);
-            break;
+          switch (error.code) {
+            case 'auth/invalid-email':
+              Alert.alert('Erro', 'O formato do email não e válido');
+              setLoading(false);
+              break;
+            case 'auth/user-not-found':
+              Alert.alert('Erro', 'O email informado não existe');
+              setLoading(false);
+              break;
 
-          default:
-            break;
-        }
-      });
-  }, []);
+            default:
+              break;
+          }
+        });
+    },
+    [navigation],
+  );
 
   return (
     <>

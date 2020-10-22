@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable no-unused-expressions */
@@ -70,8 +71,6 @@ const SignUp: React.FC = () => {
             setLoading(false);
           })
           .catch((error) => {
-            console.log(error);
-
             switch (error.code) {
               case 'auth/email-already-in-use':
                 Alert.alert(
