@@ -2,6 +2,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import auth from '@react-native-firebase/auth';
 
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
@@ -18,13 +19,18 @@ import Favorites from '../pages/Favorites';
 const Auth = createStackNavigator();
 const Tabs = createMaterialTopTabNavigator();
 
+const UserLogged = auth().currentUser;
+
+console.log(UserLogged ? 'Tem usuario' : 'Não tem usuario');
+
 const AuthRoutes: React.FC = () => (
   <Auth.Navigator
     screenOptions={{
       headerShown: false,
       cardStyle: {backgroundColor: '#2F2E39'},
     }}
-    initialRouteName="Dashboard">
+    // initialRouteName={UserLogged ? 'SignIn' : 'Dashboard'}
+  >
     <Auth.Screen name="SignIn" component={SignIn} />
     <Auth.Screen name="SignUp" component={SignUp} />
     <Auth.Screen name="Profile" component={Profile} />

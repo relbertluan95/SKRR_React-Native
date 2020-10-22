@@ -20,19 +20,19 @@ export const Passwords = styled.View`
   margin-top: 10px;
   padding-top: 15px;
   border-top-width: 1px;
-  border-top-color: #A5A7AD;
+  border-top-color: #a5a7ad;
 `;
 
 export const Footer = styled.View`
   margin-top: 40px;
 `;
 
-export const FooterText= styled.Text`
+export const FooterText = styled.Text`
   font-family: 'Gruppo-Regular';
   font-size: 24px;
   color: #eee;
 `;
 
-export const FooterButton= styled.TouchableOpacity`
+export const FooterButton = styled.TouchableOpacity`
   align-items: center;
 `;

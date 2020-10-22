@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable no-unused-expressions */
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useRef, useEffect} from 'react';
 import {Alert} from 'react-native';
 
+import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
 import {FormHandles} from '@unform/core';
@@ -35,6 +36,7 @@ const SignIn: React.FC = () => {
   const navigation = useNavigation();
 
   const handleSignIn = useCallback(async (data: SignInFormData) => {
+    const {email, password} = data;
     try {
       formRef.current?.setErrors({});
 
@@ -52,9 +54,8 @@ const SignIn: React.FC = () => {
         abortEarly: false,
       });
 
-      /* await signIn({
-          register: data.register,
-        }); */
+      await auth().signInWithEmailAndPassword(email, password);
+      navigation.navigate('Dashboard');
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErros(err);
@@ -65,6 +66,17 @@ const SignIn: React.FC = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    async function loadUser() {
+      const user = await auth().currentUser;
+
+      if (user) {
+        navigation.navigate('Dashboard');
+      }
+    }
+    loadUser();
+  }, [navigation]);
 
   return (
     <Container>

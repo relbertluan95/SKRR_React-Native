@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-expressions */
 import React, {useCallback, useRef} from 'react';
 import {Alert} from 'react-native';
+import auth from '@react-native-firebase/auth';
 
 import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
@@ -35,6 +36,7 @@ const SignUp: React.FC = () => {
   const navigation = useNavigation();
 
   const handleSignUp = useCallback(async (data: SignUpFormData) => {
+    const {email, password, name} = data;
     try {
       formRef.current?.setErrors({});
 
@@ -56,16 +58,20 @@ const SignUp: React.FC = () => {
         abortEarly: false,
       });
 
-      /* await signIn({
-          register: data.register,
-        }); */
+      await (
+        await auth().createUserWithEmailAndPassword(email, password)
+      ).user.updateProfile({displayName: name});
+
+      Alert.alert('Conta criada', 'Você já pode fazer login no App!');
+
+      navigation.navigate('Dashboard');
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErros(err);
 
         formRef.current?.setErrors(errors);
 
-        Alert.alert('Erro na autenticação', 'Verifique os dados informados!');
+        Alert.alert('Erro ao criar conta', 'Verifique os dados informados!');
       }
     }
   }, []);

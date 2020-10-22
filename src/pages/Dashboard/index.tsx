@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StatusBar, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import auth from '@react-native-firebase/auth';
 
 import {
   Container,
@@ -16,6 +17,7 @@ import {
 const Dashboard: React.FC = () => {
   const navigation = useNavigation();
   const [userWidth, setUserWidth] = useState<number>(0);
+  const user = auth().currentUser;
 
   useEffect(() => {
     function loadDimensions() {
@@ -35,7 +37,7 @@ const Dashboard: React.FC = () => {
           Seja bem vindo,
           {'\n'}
           <ProfileButton onPress={() => navigation.navigate('Profile')}>
-            <Name userWidth={userWidth}>Relbert Luan Almeida de Queiroz</Name>
+            <Name userWidth={userWidth}>{user?.displayName}</Name>
             <Icon name="edit" size={14} color="#eee" />
           </ProfileButton>
         </HeaderText>
