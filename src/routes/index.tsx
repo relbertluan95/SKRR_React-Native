@@ -49,7 +49,7 @@ const TabsRoutes: React.FC = () => (
       inactiveTintColor: '#A5A7AD',
       pressColor: '#B7730E',
       tabStyle: {backgroundColor: '#33323c'},
-      scrollEnabled: true,
+      // scrollEnabled: true,
       labelStyle: {fontFamily: 'Gruppo-Regular', fontSize: 16},
     }}>
     <Tabs.Screen
@@ -66,9 +66,6 @@ const TabsRoutes: React.FC = () => (
         title: 'Calças',
       }}
     />
-
-    <Tabs.Screen name="SignIn" component={SignIn} />
-    <Tabs.Screen name="SignUp" component={SignUp} />
   </Tabs.Navigator>
 );
 
