@@ -11,6 +11,8 @@ import Dashboard from '../pages/Dashboard';
 import Tshirt from '../pages/Tshirt';
 import Pants from '../pages/Pants';
 
+import ProdutcDetais from '../components/ProductDetais';
+
 const Auth = createStackNavigator();
 const Tabs = createMaterialTopTabNavigator();
 
@@ -35,6 +37,8 @@ const AuthRoutes: React.FC = () => (
         );
       }}
     />
+
+    <Auth.Screen name="ProdutcDetais" component={ProdutcDetais} />
   </Auth.Navigator>
 );
 

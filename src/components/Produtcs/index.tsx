@@ -1,6 +1,7 @@
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
-import {Container, Button, Image} from './styles';
+import {Container, Button, Image, Icon} from './styles';
 
 interface DataProps {
   data: ProductsProps[];
@@ -12,11 +13,17 @@ interface ProductsProps {
 }
 
 const Produtcs: React.FC<DataProps> = ({data}: DataProps) => {
-  console.log(data.map((item) => item.title));
+  const navigation = useNavigation();
   return (
     <Container>
       {data.map((item) => (
-        <Button>
+        <Button onPress={() => navigation.navigate('ProdutcDetais', item)}>
+          <Icon
+            name="heart"
+            size={28}
+            color="#A5A7AD"
+            onPress={() => console.log(item)}
+          />
           <Image source={{uri: item.url}} />
         </Button>
       ))}
