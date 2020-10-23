@@ -12,7 +12,6 @@ export const Header = styled.View`
   background: #33323b;
   flex-direction: row;
 
-  justify-content: center;
   align-items: center;
 `;
 
@@ -22,16 +21,17 @@ export const Content = styled.View`
   padding: 10px;
 `;
 
-export const HeaderIcon = styled(FeatherIcon)`
-  position: absolute;
+export const HeaderIcon = styled(FeatherIcon)``;
 
-  left: 0;
-`;
-
-export const HeaderTitle = styled.Text`
-  font-size: 36px;
+export const HeaderTitle = styled.Text.attrs({
+  numberOfLines: 1,
+})`
+  font-size: 24px;
   font-family: 'Gruppo-Regular';
   color: #a5a7ad;
+
+  margin: 0 15px;
+  width: 80%;
 `;
 
 export const Image = styled.Image`
@@ -60,7 +60,7 @@ export const ButtonText = styled.Text`
 `;
 
 export const Title = styled.Text`
-  font-size: 26px;
+  font-size: 24px;
   font-family: 'Gruppo-Regular';
   color: #a5a7ad;
 
@@ -68,15 +68,15 @@ export const Title = styled.Text`
 `;
 
 export const Description = styled.Text`
-  font-size: 22px;
+  font-size: 20px;
   font-family: 'Gruppo-Regular';
   color: #a5a7ad;
 
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 export const TextDescription = styled.Text`
-  font-size: 20px;
+  font-size: 18px;
   font-family: 'Gruppo-Regular';
   color: #a5a7ad;
 

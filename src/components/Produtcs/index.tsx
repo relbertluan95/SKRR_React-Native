@@ -8,8 +8,11 @@ interface DataProps {
 }
 
 interface ProductsProps {
+  id: string;
   title: string;
+  description: string;
   url: string;
+  price: string;
 }
 
 const Produtcs: React.FC<DataProps> = ({data}: DataProps) => {

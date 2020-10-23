@@ -1,28 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+
+import database from '@react-native-firebase/database';
 
 import Products from '../../components/Produtcs';
 
 import {Container} from './styles';
 
-const data = [
-  {
-    title: 'camiseta_1',
-    url:
-      'https://static.netshoes.com.br/produtos/camiseta-nike-fran-swoosh-masculina/14/HZM-3651-014/HZM-3651-014_zoom1.jpg?ts=1585331283',
-  },
-  {
-    title: 'camiseta_2',
-    url:
-      'https://images.lojanike.com.br/1024x1024/produto/9525_1762430_20191025114407.png',
-  },
-  {
-    title: 'camiseta_3',
-    url:
-      'https://img.elo7.com.br/product/zoom/27EAA90/camiseta-preta-nike-manga-curta-camiseta-nike.jpg',
-  },
-];
+interface DataProps {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  price: string;
+}
 
 const Tshirt: React.FC = () => {
+  const [data, setData] = useState<DataProps[]>([]);
+
+  useEffect(() => {
+    async function loadData() {
+      await database()
+        .ref('/products/camisetas')
+        .once('value')
+        .then((snapshot) => {
+          setData(snapshot.val());
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    loadData();
+  }, []);
+
   return (
     <Container>
       <Products data={data} />
