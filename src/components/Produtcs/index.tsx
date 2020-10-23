@@ -21,12 +21,12 @@ const Produtcs: React.FC<DataProps> = ({data}: DataProps) => {
     <Container>
       {data.map((item) => (
         <Button onPress={() => navigation.navigate('ProductDetails', item)}>
-          <Icon
+          {/* <Icon
             name="heart"
             size={28}
             color="#A5A7AD"
             onPress={() => console.log(item)}
-          />
+          /> */}
           <Image source={{uri: item.url}} />
         </Button>
       ))}

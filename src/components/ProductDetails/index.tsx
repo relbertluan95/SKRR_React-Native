@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {StatusBar} from 'react-native';
 
 import database from '@react-native-firebase/database';
@@ -24,58 +24,80 @@ import {
 const ProductDetails: React.FC = ({route}) => {
   const {title, url, description, price, id} = route.params;
   const navigation = useNavigation();
-  const [countList, setCountList] = useState<number>(0);
+  const [favorite, setFavorite] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function loadFavorite() {
+      const user = auth().currentUser?.uid;
+      await database()
+        .ref(`users/${user}/favorites`)
+        .orderByChild('id')
+        .equalTo(id)
+        .once('value')
+        .then((snapshot) => {
+          if (snapshot.val() !== null) {
+            setFavorite(true);
+          }
+        });
+    }
+    loadFavorite();
+  }, [id]);
 
   const handleFavorite = useCallback(async () => {
     const user = auth().currentUser?.uid;
 
-    await database()
-      .ref(`users/${user}/favorites`)
-      .once('value')
-      .then((snapshot) => {
-        if (snapshot.val() == null) {
-          console.log('Está vazio!');
+    if (favorite === false) {
+      await database()
+        .ref(`users/${user}/favorites`)
+        .once('value')
+        .then((snapshot) => {
+          if (snapshot.val() == null) {
+            console.log('Está vazio!');
 
-          database()
-            .ref(`users/${user}/favorites/${0}`)
-            .set({
-              title,
-              url,
-              description,
-              price,
-            })
-            .then(() => console.log('Add'))
-            .catch((error) => console.log(error));
-        }
-        if (snapshot.val().length === 1) {
-          console.log(snapshot.val().length);
+            database()
+              .ref(`users/${user}/favorites/${0}`)
+              .set({
+                id,
+                title,
+                url,
+                description,
+                price,
+              })
+              .then(() => console.log('Add'))
+              .catch((error) => console.log(error));
+          }
+          if (snapshot.val().length === 1) {
+            console.log(snapshot.val().length);
 
-          database()
-            .ref(`users/${user}/favorites/${1}`)
-            .set({
-              title,
-              url,
-              description,
-              price,
-            })
-            .then(() => console.log('Add'))
-            .catch((error) => console.log(error));
-        } else {
-          console.log(snapshot.val().length);
+            database()
+              .ref(`users/${user}/favorites/${1}`)
+              .set({
+                id,
+                title,
+                url,
+                description,
+                price,
+              })
+              .then(() => console.log('Add'))
+              .catch((error) => console.log(error));
+          } else {
+            console.log(snapshot.val().length);
 
-          database()
-            .ref(`users/${user}/favorites/${snapshot.val().length}`)
-            .set({
-              title,
-              url,
-              description,
-              price,
-            })
-            .then(() => console.log('Add'))
-            .catch((error) => console.log(error));
-        }
-      });
-  }, [description, price, title, url]);
+            database()
+              .ref(`users/${user}/favorites/${snapshot.val().length}`)
+              .set({
+                id,
+                title,
+                url,
+                description,
+                price,
+              })
+              .then(() => console.log('Add'))
+              .catch((error) => console.log(error));
+          }
+        });
+    } else return;
+  }, [description, favorite, id, price, title, url]);
 
   return (
     <>
@@ -100,9 +122,11 @@ const ProductDetails: React.FC = ({route}) => {
           <TextDescription>{description}</TextDescription>
         </Content>
       </Container>
-      <Button>
+      <Button disallowInterruption isFavorite={favorite}>
         <Icon name="heart" size={24} color="#A5A7AD" />
-        <ButtonText onPress={handleFavorite}>Favoritar</ButtonText>
+        <ButtonText onPress={handleFavorite}>
+          {favorite ? 'Já está na sua lista' : 'Favoritar'}
+        </ButtonText>
       </Button>
     </>
   );

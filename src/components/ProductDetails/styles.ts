@@ -1,6 +1,10 @@
-import styled from 'styled-components/native';
+import styled, {css} from 'styled-components/native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {RectButton} from 'react-native-gesture-handler';
+
+interface ButtonProps {
+  isFavorite?: boolean;
+}
 
 export const Container = styled.ScrollView`
   flex: 1;
@@ -41,7 +45,7 @@ export const Image = styled.Image`
   border-radius: 4px;
 `;
 
-export const Button = styled(RectButton)`
+export const Button = styled(RectButton)<ButtonProps>`
   width: 100%;
   height: 60px;
   background: #b7730e;
@@ -49,6 +53,12 @@ export const Button = styled(RectButton)`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
+  ${(props) =>
+    props.isFavorite &&
+    css`
+      background: #0376b7;
+    `}
 `;
 
 export const ButtonText = styled.Text`
