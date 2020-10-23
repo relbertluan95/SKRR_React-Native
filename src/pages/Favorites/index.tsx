@@ -1,11 +1,35 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StatusBar} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
+import database from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
+
+import Products from '../../components/Produtcs';
 
 import {Container, Header, HeaderIcon, HeaderTitle} from './styles';
 
 const Favorites: React.FC = () => {
   const navigation = useNavigation();
+  const [data, setData] = useState<[]>([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const user = await auth().currentUser?.uid;
+      await database()
+        .ref(`users/${user}/favorites`)
+        .once('value')
+        .then((snapshot) => {
+          setData(snapshot.val());
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    loadData();
+  }, []);
+
   return (
     <>
       <Header>
@@ -19,6 +43,7 @@ const Favorites: React.FC = () => {
       </Header>
       <Container>
         <StatusBar backgroundColor="#33323b" barStyle="light-content" />
+        <Products data={data} />
       </Container>
     </>
   );

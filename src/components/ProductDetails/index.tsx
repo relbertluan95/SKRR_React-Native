@@ -24,34 +24,58 @@ import {
 const ProductDetails: React.FC = ({route}) => {
   const {title, url, description, price, id} = route.params;
   const navigation = useNavigation();
-  const [countList, setCountList] = useState<number>();
+  const [countList, setCountList] = useState<number>(0);
 
   const handleFavorite = useCallback(async () => {
     const user = auth().currentUser?.uid;
 
-    /* await database()
+    await database()
       .ref(`users/${user}/favorites`)
       .once('value')
       .then((snapshot) => {
-        if (snapshot.val().length == null) {
-          setCountList(0);
+        if (snapshot.val() == null) {
+          console.log('Está vazio!');
+
+          database()
+            .ref(`users/${user}/favorites/${0}`)
+            .set({
+              title,
+              url,
+              description,
+              price,
+            })
+            .then(() => console.log('Add'))
+            .catch((error) => console.log(error));
         }
-        setCountList(snapshot.val().length + 1);
+        if (snapshot.val().length === 1) {
+          console.log(snapshot.val().length);
+
+          database()
+            .ref(`users/${user}/favorites/${1}`)
+            .set({
+              title,
+              url,
+              description,
+              price,
+            })
+            .then(() => console.log('Add'))
+            .catch((error) => console.log(error));
+        } else {
+          console.log(snapshot.val().length);
+
+          database()
+            .ref(`users/${user}/favorites/${snapshot.val().length}`)
+            .set({
+              title,
+              url,
+              description,
+              price,
+            })
+            .then(() => console.log('Add'))
+            .catch((error) => console.log(error));
+        }
       });
-
-    console.log(`countList => ${countList}`); */
-
-    database()
-      .ref(`users/${user}/favorites/${id}`)
-      .set({
-        title,
-        url,
-        description,
-        price,
-      })
-      .then(() => console.log('Add'))
-      .catch((error) => console.log(error));
-  }, [description, id, price, title, url]);
+  }, [description, price, title, url]);
 
   return (
     <>
