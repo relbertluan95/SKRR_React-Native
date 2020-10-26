@@ -3,7 +3,7 @@ import {ActivityIndicator} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 
-import {Container, Content, Button, Image, Text} from './styles';
+import {Container, Content, Button, Image} from './styles';
 
 interface DataProps {
   data: ProductsProps[];
@@ -17,6 +17,7 @@ interface ProductsProps {
   price: string;
   cupon: string;
   discount: string;
+  idArray: string;
 }
 
 const Produtcs: React.FC<DataProps> = ({data}: DataProps) => {

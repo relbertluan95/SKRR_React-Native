@@ -9,9 +9,20 @@ import Products from '../../components/Produtcs';
 
 import {Container, Header, HeaderIcon, HeaderTitle} from './styles';
 
+interface DataProps {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  price: string;
+  cupon: string;
+  discount: string;
+  idArray: string;
+}
+
 const Favorites: React.FC = () => {
   const navigation = useNavigation();
-  const [data, setData] = useState<[]>([]);
+  const [data, setData] = useState<DataProps[]>([]);
 
   useEffect(() => {
     async function loadData() {
@@ -25,7 +36,7 @@ const Favorites: React.FC = () => {
     }
 
     loadData();
-  }, []);
+  }, [data]);
 
   return (
     <>

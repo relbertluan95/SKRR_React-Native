@@ -43,6 +43,7 @@ const ProductDetails: React.FC = ({route}) => {
     id,
     cupon,
     discount: discountSelected,
+    idArray,
   } = route.params;
   const navigation = useNavigation();
 
@@ -78,6 +79,7 @@ const ProductDetails: React.FC = ({route}) => {
           .ref(`users/${user}/favorites/${snapshot.val()}`)
           .set({
             id,
+            idArray: snapshot.val(),
             title,
             url,
             description,
@@ -96,12 +98,14 @@ const ProductDetails: React.FC = ({route}) => {
   }, [description, discount, discountValue, id, priceDiscount, title, url]);
 
   const handleDiscount = useCallback(async () => {
+    const user = auth().currentUser?.uid;
+
     await database()
       .ref(`coupons/${discount}`)
       .once('value')
       .then((snapshot) => {
         if (snapshot.val() === null) {
-          console.log('Cupon não encontrado!');
+          // console.log('Cupon não encontrado!');
         } else {
           const realPrice = parseFloat(price.replace(',', '.'));
           const discountValue = snapshot.val();
@@ -116,7 +120,16 @@ const ProductDetails: React.FC = ({route}) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [discount, price]);
+
+    if (cupon !== undefined) {
+      await database().ref(`users/${user}/favorites/${idArray}`).update({
+        price: priceDiscount,
+        discount: discountValue,
+        cupon: discount,
+      });
+    }
+  }, [cupon, discount, discountValue, idArray, price, priceDiscount]);
+
   return (
     <>
       <Header>
