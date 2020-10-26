@@ -13,6 +13,8 @@ interface ProductsProps {
   description: string;
   url: string;
   price: string;
+  cupon: string;
+  discount: string;
 }
 
 const Produtcs: React.FC<DataProps> = ({data}: DataProps) => {

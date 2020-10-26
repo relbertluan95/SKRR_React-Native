@@ -12,6 +12,8 @@ interface DataProps {
   description: string;
   url: string;
   price: string;
+  cupon: string;
+  discount: string;
 }
 
 const Tshirt: React.FC = () => {
