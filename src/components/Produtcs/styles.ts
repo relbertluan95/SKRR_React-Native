@@ -3,6 +3,13 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 
 export const Container = styled.ScrollView``;
 
+export const Content = styled.View`
+  flex: 1;
+
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Button = styled.TouchableOpacity``;
 
 export const Image = styled.Image`

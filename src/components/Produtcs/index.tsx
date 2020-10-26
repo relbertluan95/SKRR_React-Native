@@ -1,7 +1,9 @@
 import React from 'react';
+import {ActivityIndicator} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
 
-import {Container, Button, Image, Icon} from './styles';
+import {Container, Content, Button, Image, Text} from './styles';
 
 interface DataProps {
   data: ProductsProps[];
@@ -20,19 +22,21 @@ interface ProductsProps {
 const Produtcs: React.FC<DataProps> = ({data}: DataProps) => {
   const navigation = useNavigation();
   return (
-    <Container>
-      {data.map((item) => (
-        <Button onPress={() => navigation.navigate('ProductDetails', item)}>
-          {/* <Icon
-            name="heart"
-            size={28}
-            color="#A5A7AD"
-            onPress={() => console.log(item)}
-          /> */}
-          <Image source={{uri: item.url}} />
-        </Button>
-      ))}
-    </Container>
+    <>
+      {data ? (
+        <Container>
+          {data.map((item) => (
+            <Button onPress={() => navigation.navigate('ProductDetails', item)}>
+              <Image source={{uri: item.url}} />
+            </Button>
+          ))}
+        </Container>
+      ) : (
+        <Content>
+          <ActivityIndicator size={42} color="#B7730E" />
+        </Content>
+      )}
+    </>
   );
 };
 

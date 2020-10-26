@@ -23,12 +23,8 @@ const Pants: React.FC = () => {
     async function loadData() {
       await database()
         .ref('/products/calcas')
-        .once('value')
-        .then((snapshot) => {
+        .on('value', (snapshot) => {
           setData(snapshot.val());
-        })
-        .catch((error) => {
-          console.log(error);
         });
     }
 

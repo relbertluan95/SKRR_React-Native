@@ -53,12 +53,12 @@ const ProductDetails: React.FC = ({route}) => {
 
     async function loadFavorite() {
       const user = auth().currentUser?.uid;
+
       await database()
         .ref(`users/${user}/favorites`)
         .orderByChild('id')
         .equalTo(id)
-        .once('value')
-        .then((snapshot) => {
+        .on('value', (snapshot) => {
           if (snapshot.val() !== null) {
             setFavorite(true);
           }
@@ -71,74 +71,29 @@ const ProductDetails: React.FC = ({route}) => {
   const handleFavorite = useCallback(async () => {
     const user = auth().currentUser?.uid;
 
-    if (favorite === false) {
-      await database()
-        .ref(`users/${user}/favorites`)
-        .once('value')
-        .then((snapshot) => {
-          if (snapshot.val() == null) {
-            console.log('Está vazio!');
-
+    await database()
+      .ref(`users/${user}/favoritesNumber`)
+      .once('value', (snapshot) => {
+        database()
+          .ref(`users/${user}/favorites/${snapshot.val()}`)
+          .set({
+            id,
+            title,
+            url,
+            description,
+            price: priceDiscount || false,
+            discount: discountValue || false,
+            cupon: discount || false,
+          })
+          .then(() => {
             database()
-              .ref(`users/${user}/favorites/${0}`)
-              .set({
-                id,
-                title,
-                url,
-                description,
-                price: priceDiscount || false,
-                discount: discountValue || false,
-                cupon: discount || false,
-              })
-              .then(() => console.log('Add'))
-              .catch((error) => console.log(error));
-          }
-          if (snapshot.val().length === 1) {
-            console.log(snapshot.val().length);
-
-            database()
-              .ref(`users/${user}/favorites/${1}`)
-              .set({
-                id,
-                title,
-                url,
-                description,
-                price: priceDiscount || price,
-                discount: discountValue || 'false',
-                cupon: discount,
-              })
-              .then(() => console.log('Add'))
-              .catch((error) => console.log(error));
-          } else {
-            console.log(snapshot.val().length);
-
-            database()
-              .ref(`users/${user}/favorites/${snapshot.val().length}`)
-              .set({
-                id,
-                title,
-                url,
-                description,
-                price: priceDiscount || price,
-                discount: discountValue || 'false',
-                cupon: discount,
-              })
-              .then(() => console.log('Add'))
-              .catch((error) => console.log(error));
-          }
-        });
-    } else return;
-  }, [
-    description,
-    discount,
-    discountValue,
-    favorite,
-    id,
-    price,
-    priceDiscount,
-    title,
-    url,
-  ]);
+              .ref(`users/${user}`)
+              .update({
+                favoritesNumber: snapshot.val() + 1,
+              });
+          });
+      });
+  }, [description, discount, discountValue, id, priceDiscount, title, url]);
 
   const handleDiscount = useCallback(async () => {
     await database()
@@ -210,9 +165,13 @@ const ProductDetails: React.FC = ({route}) => {
           <TextDescription>{description}</TextDescription>
         </Content>
       </Container>
-      <Button disallowInterruption isFavorite={favorite}>
+      <Button
+        isFavorite={favorite}
+        onPress={handleFavorite}
+        disabled={!!favorite}
+      >
         <Icon name="heart" size={24} color="#A5A7AD" />
-        <ButtonText onPress={handleFavorite}>
+        <ButtonText>
           {favorite ? 'Já está na sua lista' : 'Favoritar'}
         </ButtonText>
       </Button>

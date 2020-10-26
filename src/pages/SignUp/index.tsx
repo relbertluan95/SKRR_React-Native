@@ -4,8 +4,9 @@
 /* eslint-disable no-unused-expressions */
 import React, {useCallback, useRef, useState} from 'react';
 import {Alert, ActivityIndicator} from 'react-native';
-import auth from '@react-native-firebase/auth';
 
+import database from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
 import {FormHandles} from '@unform/core';
@@ -66,6 +67,10 @@ const SignUp: React.FC = () => {
           .createUserWithEmailAndPassword(email, password)
           .then(() => {
             auth().currentUser?.updateProfile({displayName: name});
+
+            database().ref(`users/${auth().currentUser?.uid}`).set({
+              favoritesNumber: 0,
+            });
 
             navigation.navigate('Dashboard');
             setLoading(false);

@@ -23,13 +23,18 @@ const Tshirt: React.FC = () => {
     async function loadData() {
       await database()
         .ref('/products/camisetas')
+        .on('value', (snapshot) => {
+          setData(snapshot.val());
+        });
+      /* await database()
+        .ref('/products/camisetas')
         .once('value')
         .then((snapshot) => {
           setData(snapshot.val());
         })
         .catch((error) => {
           console.log(error);
-        });
+        }); */
     }
 
     loadData();

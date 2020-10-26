@@ -45,7 +45,7 @@ export const Image = styled.Image`
   border-radius: 4px;
 `;
 
-export const Button = styled(RectButton)<ButtonProps>`
+export const Button = styled.TouchableOpacity<ButtonProps>`
   width: 100%;
   height: 60px;
   background: #b7730e;
@@ -95,6 +95,7 @@ export const TextDescription = styled.Text`
 
 export const Detais = styled.View`
   width: 100%;
+  margin-top: 8px;
 `;
 export const DetaisTop = styled.View`
   flex-direction: row;

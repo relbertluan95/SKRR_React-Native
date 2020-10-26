@@ -16,14 +16,11 @@ const Favorites: React.FC = () => {
   useEffect(() => {
     async function loadData() {
       const user = await auth().currentUser?.uid;
+
       await database()
         .ref(`users/${user}/favorites`)
-        .once('value')
-        .then((snapshot) => {
+        .on('value', (snapshot) => {
           setData(snapshot.val());
-        })
-        .catch((error) => {
-          console.log(error);
         });
     }
 
