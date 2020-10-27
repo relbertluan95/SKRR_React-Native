@@ -68,7 +68,7 @@ const ResetPassword: React.FC = () => {
           color="#A5A7AD"
           onPress={() => navigation.goBack()}
         />
-        <HeaderTitle>Recupear Senha</HeaderTitle>
+        <HeaderTitle>Recuperar Senha</HeaderTitle>
       </Header>
       <Container>
         <Title>Informe seu email</Title>
