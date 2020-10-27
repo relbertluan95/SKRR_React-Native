@@ -15,6 +15,7 @@ interface ProductsProps {
   description: string;
   url: string;
   price: string;
+  discountPrice: string;
   cupon: string;
   discount: string;
   idArray: string;

@@ -31,7 +31,7 @@ export const HeaderIcon = styled(FeatherIcon)`
 `;
 
 export const HeaderTitle = styled.Text`
-  font-size: 36px;
+  font-size: 24px;
   font-family: 'Gruppo-Regular';
   color: #a5a7ad;
 `;

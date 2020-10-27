@@ -1,7 +1,9 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-shadow */
 /* eslint-disable no-useless-return */
 /* eslint-disable react/prop-types */
 import React, {useCallback, useEffect, useState} from 'react';
-import {StatusBar} from 'react-native';
+import {Alert, StatusBar} from 'react-native';
 
 import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
@@ -33,13 +35,14 @@ const ProductDetails: React.FC = ({route}) => {
   const [favorite, setFavorite] = useState<boolean>(false);
   const [discount, setDiscount] = useState();
   const [priceDiscount, setPriceDiscount] = useState();
-  const [discountValue, setDiscountValue] = useState();
+  const [descontoEmReal, setDescontoEmReal] = useState();
 
   const {
     title,
     url,
     description,
     price,
+    discountPrice,
     id,
     cupon,
     discount: discountSelected,
@@ -55,7 +58,7 @@ const ProductDetails: React.FC = ({route}) => {
     async function loadFavorite() {
       const user = auth().currentUser?.uid;
 
-      await database()
+      database()
         .ref(`users/${user}/favorites`)
         .orderByChild('id')
         .equalTo(id)
@@ -83,8 +86,9 @@ const ProductDetails: React.FC = ({route}) => {
             title,
             url,
             description,
-            price: priceDiscount || false,
-            discount: discountValue || false,
+            price,
+            discountPrice: priceDiscount || false,
+            discount: descontoEmReal || false,
             cupon: discount || false,
           })
           .then(() => {
@@ -95,7 +99,7 @@ const ProductDetails: React.FC = ({route}) => {
               });
           });
       });
-  }, [description, discount, discountValue, id, priceDiscount, title, url]);
+  }, [descontoEmReal, description, discount, id, price, priceDiscount, title, url]);
 
   const handleDiscount = useCallback(async () => {
     const user = auth().currentUser?.uid;
@@ -105,7 +109,7 @@ const ProductDetails: React.FC = ({route}) => {
       .once('value')
       .then((snapshot) => {
         if (snapshot.val() === null) {
-          // console.log('Cupon não encontrado!');
+          Alert.alert('Erro', 'Cupom inválido!')
         } else {
           const realPrice = parseFloat(price.replace(',', '.'));
           const discountValue = snapshot.val();
@@ -113,22 +117,14 @@ const ProductDetails: React.FC = ({route}) => {
           const discountInReal = (realPrice / 100) * discountValue;
           const newPrice = realPrice - discountInReal;
 
-          setDiscountValue(discountInReal.toFixed(2).replace('.', ','));
+          setDescontoEmReal(discountInReal.toFixed(2).replace('.', ','));
           setPriceDiscount(newPrice.toFixed(2).replace('.', ','));
         }
       })
       .catch((error) => {
         console.log(error);
       });
-
-    if (cupon !== undefined) {
-      await database().ref(`users/${user}/favorites/${idArray}`).update({
-        price: priceDiscount,
-        discount: discountValue,
-        cupon: discount,
-      });
-    }
-  }, [cupon, discount, discountValue, idArray, price, priceDiscount]);
+  }, [discount, price]);
 
   return (
     <>
@@ -151,27 +147,22 @@ const ProductDetails: React.FC = ({route}) => {
 
           <Detais>
             <DetaisTop>
-              <Price>{`R$ ${priceDiscount}`}</Price>
-              <Cupon>
-                <CuponTextInput
-                  placeholder="CUPON"
-                  placeholderTextColor="#A5A7AD"
-                  onChangeText={(value) => setDiscount(value)}
-                  autoCapitalize="characters"
-                  defaultValue={cupon || ''}
-                />
-                <CuponButton onPress={handleDiscount}>
-                  <Icon name="check" color="#eee" size={32} />
-                </CuponButton>
-              </Cupon>
+              <Price>{`R$ ${discountPrice || priceDiscount}`}</Price>
+              {!favorite && (
+                <Cupon>
+                  <CuponTextInput
+                    placeholder="CUPON"
+                    placeholderTextColor="#A5A7AD"
+                    onChangeText={(value) => setDiscount(value)}
+                    autoCapitalize="characters"
+                    defaultValue={cupon || ''}
+                  />
+                  <CuponButton onPress={handleDiscount}>
+                    <Icon name="check" color="#eee" size={32} />
+                  </CuponButton>
+                </Cupon>
+              )}
             </DetaisTop>
-            <Message>
-              {discountValue || cupon
-                ? `Você ganhou R$ ${
-                    discountValue || discountSelected
-                  } de desconto!!`
-                : ''}
-            </Message>
           </Detais>
 
           <Description>DESCRIÇÃO</Description>
