@@ -2,7 +2,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import auth from '@react-native-firebase/auth';
 
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
@@ -11,8 +10,12 @@ import ResetPassword from '../pages/ResetPassword';
 
 import Dashboard from '../pages/Dashboard';
 
-import Tshirt from '../pages/Tshirt';
-import Pants from '../pages/Pants';
+import Tshirt from '../pages/Products/Tshirt';
+import Pants from '../pages/Products/Pants';
+import Sweatshirts from '../pages/Products/Sweatshirts';
+import Sneakers from '../pages/Products/Sneakers';
+import Skateboard from '../pages/Products/Skateboard';
+import Shorts from '../pages/Products/Shorts';
 
 import ProductDetails from '../components/ProductDetails';
 import Favorites from '../pages/Favorites';
@@ -55,7 +58,7 @@ const TabsRoutes: React.FC = () => (
       inactiveTintColor: '#A5A7AD',
       pressColor: '#B7730E',
       tabStyle: {backgroundColor: '#33323c'},
-      // scrollEnabled: true,
+      scrollEnabled: true,
       labelStyle: {fontFamily: 'Gruppo-Regular', fontSize: 16},
     }}>
     <Tabs.Screen
@@ -70,6 +73,34 @@ const TabsRoutes: React.FC = () => (
       component={Pants}
       options={{
         title: 'Calças',
+      }}
+    />
+    <Tabs.Screen
+      name="Sweatshirts"
+      component={Sweatshirts}
+      options={{
+        title: 'Moletons',
+      }}
+    />
+    <Tabs.Screen
+      name="Sneakers"
+      component={Sneakers}
+      options={{
+        title: 'Tênis',
+      }}
+    />
+    <Tabs.Screen
+      name="Skateboard"
+      component={Skateboard}
+      options={{
+        title: 'Skates',
+      }}
+    />
+    <Tabs.Screen
+      name="Shorts"
+      component={Shorts}
+      options={{
+        title: 'Bermudas',
       }}
     />
   </Tabs.Navigator>

@@ -22,7 +22,7 @@ const Pants: React.FC = () => {
   useEffect(() => {
     async function loadData() {
       await database()
-        .ref('/products/calcas')
+        .ref('/products/pants')
         .on('value', (snapshot) => {
           setData(snapshot.val());
         });
