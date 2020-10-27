@@ -4,7 +4,7 @@ import database from '@react-native-firebase/database';
 
 import Products from '../../components/Produtcs';
 
-import {Container} from './styles';
+import {Container, List} from './styles';
 
 interface DataProps {
   id: string;
@@ -12,8 +12,10 @@ interface DataProps {
   description: string;
   url: string;
   price: string;
+  discountPrice: string;
   cupon: string;
   discount: string;
+  idArray: string;
 }
 
 const Tshirt: React.FC = () => {
@@ -33,7 +35,11 @@ const Tshirt: React.FC = () => {
 
   return (
     <Container>
-      <Products data={data} />
+      <List
+        keyExtractor={(item) => String(item.id)}
+        data={data}
+        renderItem={({item}) => <Products data={item} />}
+      />
     </Container>
   );
 };

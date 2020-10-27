@@ -7,7 +7,7 @@ import auth from '@react-native-firebase/auth';
 
 import Products from '../../components/Produtcs';
 
-import {Container, Header, HeaderIcon, HeaderTitle} from './styles';
+import {Container, Header, HeaderIcon, HeaderTitle, List} from './styles';
 
 interface DataProps {
   id: string;
@@ -52,7 +52,11 @@ const Favorites: React.FC = () => {
       </Header>
       <Container>
         <StatusBar backgroundColor="#33323b" barStyle="light-content" />
-        <Products data={data} />
+        <List
+          keyExtractor={(item) => String(item.id)}
+          data={data}
+          renderItem={({item}) => <Products data={item} />}
+        />
       </Container>
     </>
   );

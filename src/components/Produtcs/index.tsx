@@ -1,16 +1,17 @@
-import React from 'react';
+/* eslint-disable react/jsx-closing-bracket-location */
+import React, {useState, useEffect} from 'react';
 import {ActivityIndicator} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 
-import {Container, Content, Button, Image} from './styles';
+import {Container, Content, Button, Image, Box} from './styles';
 
 interface DataProps {
-  data: ProductsProps[];
+  data: ProductsProps;
 }
 
 interface ProductsProps {
-  id: string;
+  id: number;
   title: string;
   description: string;
   url: string;
@@ -27,11 +28,11 @@ const Produtcs: React.FC<DataProps> = ({data}: DataProps) => {
     <>
       {data ? (
         <Container>
-          {data.map((item) => (
-            <Button onPress={() => navigation.navigate('ProductDetails', item)}>
-              <Image source={{uri: item.url}} />
+          <Box key={data.id}>
+            <Button onPress={() => navigation.navigate('ProductDetails', data)}>
+              <Image source={{uri: data.url}} />
             </Button>
-          ))}
+          </Box>
         </Container>
       ) : (
         <Content>

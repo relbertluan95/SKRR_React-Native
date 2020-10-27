@@ -32,3 +32,10 @@ export const HeaderTitle = styled.Text`
   font-family: 'Gruppo-Regular';
   color: #a5a7ad;
 `;
+
+export const List = styled.FlatList.attrs({
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: {padding: 5},
+  horizontal: false,
+  numColumns: 2,
+})``;
