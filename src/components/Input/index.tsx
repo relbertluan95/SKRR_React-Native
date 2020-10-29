@@ -36,6 +36,10 @@ const Input: React.FC<InputProps> = ({name, icon, ...rest}) => {
         inputElementRef.current.clear();
       },
     });
+
+    inputElementRef.current.setNativeProps({
+      style: {fontFamily: 'Gruppo-Regular'},
+    });
   }, [fieldName, registerField]);
 
   return (

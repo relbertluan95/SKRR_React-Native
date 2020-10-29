@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-closing-bracket-location */
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {ActivityIndicator} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 
-import {Container, Content, Button, Image, Box} from './styles';
+import {Container, Content, Image, Box, Footer, Title} from './styles';
 
 interface DataProps {
   data: ProductsProps;
@@ -26,12 +26,15 @@ const Produtcs: React.FC<DataProps> = ({data}: DataProps) => {
   const navigation = useNavigation();
   return (
     <>
-      {data ? (
+      {data.id ? (
         <Container>
-          <Box key={data.id}>
-            <Button onPress={() => navigation.navigate('ProductDetails', data)}>
-              <Image source={{uri: data.url}} />
-            </Button>
+          <Box
+            key={data.id}
+            onPress={() => navigation.navigate('ProductDetails', data)}>
+            <Image source={{uri: data.url}} />
+            <Footer>
+              <Title>{data.title}</Title>
+            </Footer>
           </Box>
         </Container>
       ) : (

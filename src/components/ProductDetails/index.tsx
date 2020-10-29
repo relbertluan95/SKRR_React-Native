@@ -20,15 +20,12 @@ import {
   Button,
   ButtonText,
   Title,
-  Description,
-  TextDescription,
   Detais,
   DetaisTop,
   Price,
   Cupon,
   CuponTextInput,
-  CuponButton,
-  Message,
+  CuponButton
 } from './styles';
 
 const ProductDetails: React.FC = ({route}) => {
@@ -102,8 +99,6 @@ const ProductDetails: React.FC = ({route}) => {
   }, [descontoEmReal, description, discount, id, price, priceDiscount, title, url]);
 
   const handleDiscount = useCallback(async () => {
-    const user = auth().currentUser?.uid;
-
     await database()
       .ref(`coupons/${discount}`)
       .once('value')
@@ -164,9 +159,6 @@ const ProductDetails: React.FC = ({route}) => {
               )}
             </DetaisTop>
           </Detais>
-
-          <Description>DESCRIÇÃO</Description>
-          <TextDescription>{description}</TextDescription>
         </Content>
       </Container>
       <Button

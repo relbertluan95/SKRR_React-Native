@@ -1,6 +1,5 @@
 import styled, {css} from 'styled-components/native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {RectButton} from 'react-native-gesture-handler';
 
 interface ButtonProps {
   isFavorite?: boolean;
@@ -97,17 +96,20 @@ export const Detais = styled.View`
   width: 100%;
   margin-top: 8px;
 `;
+
 export const DetaisTop = styled.View`
   flex-direction: row;
 
   justify-content: space-between;
   align-items: center;
 `;
+
 export const Price = styled.Text`
   font-family: 'Gruppo-Regular';
   font-size: 36px;
   color: #b7730e;
 `;
+
 export const Cupon = styled.View`
   background: #403f47;
 
@@ -117,12 +119,14 @@ export const Cupon = styled.View`
 
   border-radius: 10px;
 `;
+
 export const CuponTextInput = styled.TextInput`
   width: 120px;
 
   font-family: 'Gruppo-Regular';
   font-size: 18px;
 `;
+
 export const CuponButton = styled.TouchableOpacity`
   background: #b7730e;
   padding: 8px;
@@ -130,6 +134,7 @@ export const CuponButton = styled.TouchableOpacity`
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 `;
+
 export const Message = styled.Text`
   text-align: center;
   color: #a5a7ad;
