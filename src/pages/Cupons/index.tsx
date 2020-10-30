@@ -35,13 +35,14 @@ interface CuponsProps {
   title: string;
   valid: string;
   valor: string;
+  usededDate: string;
   useded: boolean;
-  usededData: string;
 }
 
 const Cupons: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [cupons, setCupons] = useState<CuponsProps[]>([]);
+  const [selected, setSelected] = useState<CuponsProps>({} as CuponsProps);
 
   const navigation = useNavigation();
 
@@ -54,20 +55,28 @@ const Cupons: React.FC = () => {
         .once('value')
         .then((snapshot) => {
           setCupons(snapshot.val());
-          console.log(snapshot.val());
         });
     }
 
     loadData();
   }, []);
 
-  const handleModal = useCallback(() => {
-    setModalVisible(!modalVisible);
-  }, [modalVisible]);
+  const handleModal = useCallback(
+    (e) => {
+      setSelected(e);
+      setModalVisible(!modalVisible);
+    },
+    [modalVisible],
+  );
 
   const QRCode = useCallback(
     (e) => {
       if (e.data === 'SKRR') {
+        /* await database().ref(``).update({
+          useded: true,
+          usedDate: '',
+        }) */
+
         setModalVisible(!modalVisible);
 
         Alert.alert(
@@ -83,7 +92,7 @@ const Cupons: React.FC = () => {
         setModalVisible(!modalVisible);
       }
     },
-    [modalVisible],
+    [modalVisible, selected],
   );
 
   return (
@@ -134,13 +143,13 @@ const Cupons: React.FC = () => {
                 <Info>{`${item.valor}% OFF`}</Info>
                 <Date>
                   {item.useded
-                    ? `Cupom usado em ${item.usededData}`
+                    ? `Cupom usado em ${item.usededDate}`
                     : `Válidade ${item.valid}`}
                 </Date>
               </Left>
               <Rigth>
                 {item.useded ? null : (
-                  <Button onPress={handleModal}>
+                  <Button onPress={(e) => handleModal(item)}>
                     <ButtonText>Usar</ButtonText>
                   </Button>
                 )}
