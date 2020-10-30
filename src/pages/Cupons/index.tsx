@@ -3,8 +3,8 @@ import React, {useCallback, useEffect, useState} from 'react';
 import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import {RNCamera} from 'react-native-camera';
 import {useNavigation} from '@react-navigation/native';
+import {format, parseISO} from 'date-fns';
 
 import {Alert} from 'react-native';
 import {
@@ -32,6 +32,7 @@ import {
 
 interface CuponsProps {
   id: string;
+  ref: string;
   title: string;
   valid: string;
   valor: string;
@@ -52,8 +53,7 @@ const Cupons: React.FC = () => {
 
       await database()
         .ref(`users/${uid}/cupons`)
-        .once('value')
-        .then((snapshot) => {
+        .on('value', (snapshot) => {
           setCupons(snapshot.val());
         });
     }
@@ -70,12 +70,14 @@ const Cupons: React.FC = () => {
   );
 
   const QRCode = useCallback(
-    (e) => {
+    async (e) => {
+      const uid = await auth().currentUser?.uid;
+
       if (e.data === 'SKRR') {
-        /* await database().ref(``).update({
+        await database().ref(`users/${uid}/cupons/${selected.ref}`).update({
           useded: true,
-          usedDate: '',
-        }) */
+          usededDate: '31/10/2020',
+        });
 
         setModalVisible(!modalVisible);
 
