@@ -72,6 +72,29 @@ const SignUp: React.FC = () => {
               favoritesNumber: 0,
             });
 
+            database()
+              .ref(`users/${auth().currentUser?.uid}/cupons`)
+              .set({
+                0: {
+                  id: 1,
+                  ref: 0,
+                  title: '25% Off em todos os itens da loja',
+                  useded: false,
+                  usededDate: 'n/a',
+                  valid: '31/12/2020',
+                  valor: 25,
+                },
+                1: {
+                  id: 1,
+                  ref: 0,
+                  title: '25% Off na primeira compra',
+                  useded: false,
+                  usededDate: 'n/a',
+                  valid: '31/12/2020',
+                  valor: 25,
+                },
+              });
+
             navigation.navigate('Dashboard');
             setLoading(false);
           })

@@ -85,7 +85,7 @@ const Cupons: React.FC = () => {
 
         Alert.alert(
           'Parabéns!!',
-          'Você ganhou um desconto de 25% em qualquer item da nossa loja!',
+          `Você ganhou um desconto de ${selected.valor}% em qualquer item da nossa loja!`,
         );
       } else {
         Alert.alert(
