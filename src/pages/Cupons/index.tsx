@@ -36,6 +36,7 @@ interface CuponsProps {
   valid: string;
   valor: string;
   useded: boolean;
+  usededData: string;
 }
 
 const Cupons: React.FC = () => {
@@ -131,12 +132,18 @@ const Cupons: React.FC = () => {
             <Bottom>
               <Left>
                 <Info>{`${item.valor}% OFF`}</Info>
-                <Date>{`Válido até ${item.valid}`}</Date>
+                <Date>
+                  {item.useded
+                    ? `Cupom usado em ${item.usededData}`
+                    : `Válidade ${item.valid}`}
+                </Date>
               </Left>
               <Rigth>
-                <Button onPress={handleModal}>
-                  <ButtonText>Usar</ButtonText>
-                </Button>
+                {item.useded ? null : (
+                  <Button onPress={handleModal}>
+                    <ButtonText>Usar</ButtonText>
+                  </Button>
+                )}
               </Rigth>
             </Bottom>
           </Cupon>
