@@ -103,3 +103,38 @@ export const ButtonText = styled.Text`
   color: #eee;
   font-size: 20px;
 `;
+
+// Inicio Modal
+export const Modal = styled.Modal.attrs({
+  animationType: 'slide',
+  transparent: true,
+})``;
+
+export const ModalContainer = styled.View`
+  flex: 1;
+
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.7);
+`;
+
+export const ModalContent = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ModalHeader = styled.View`
+  display: flex;
+  margin-top: 20px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ModalButton = styled.TouchableOpacity``;
+
+export const ModalButtonText = styled.Text`
+  font-family: 'Gruppo-Regular';
+  color: #eee;
+  font-size: 24px;
+`;
