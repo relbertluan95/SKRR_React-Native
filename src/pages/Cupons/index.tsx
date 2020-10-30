@@ -4,7 +4,7 @@ import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {useNavigation} from '@react-navigation/native';
-import {format, parseISO} from 'date-fns';
+import {format, parseISO, getTime} from 'date-fns';
 
 import {Alert} from 'react-native';
 import {
@@ -74,10 +74,12 @@ const Cupons: React.FC = () => {
       const uid = await auth().currentUser?.uid;
 
       if (e.data === 'SKRR') {
-        await database().ref(`users/${uid}/cupons/${selected.ref}`).update({
-          useded: true,
-          usededDate: '31/10/2020',
-        });
+        await database()
+          .ref(`users/${uid}/cupons/${selected.ref}`)
+          .update({
+            useded: true,
+            usededDate: format(database().getServerTime(), 'dd/MM/yyyy'),
+          });
 
         setModalVisible(!modalVisible);
 
