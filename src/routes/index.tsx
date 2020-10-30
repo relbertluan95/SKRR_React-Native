@@ -6,6 +6,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import Profile from '../pages/Profile';
+import Cupons from '../pages/Cupons';
 import ResetPassword from '../pages/ResetPassword';
 
 import Dashboard from '../pages/Dashboard';
@@ -48,6 +49,7 @@ const AuthRoutes: React.FC = () => (
 
     <Auth.Screen name="ProductDetails" component={ProductDetails} />
     <Auth.Screen name="Favorites" component={Favorites} />
+    <Auth.Screen name="Cupons" component={Cupons} />
   </Auth.Navigator>
 );
 

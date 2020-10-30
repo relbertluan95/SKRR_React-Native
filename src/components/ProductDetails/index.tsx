@@ -143,7 +143,7 @@ const ProductDetails: React.FC = ({route}) => {
           <Detais>
             <DetaisTop>
               <Price>{`R$ ${discountPrice || priceDiscount}`}</Price>
-              {!favorite && (
+              {/* {!favorite && (
                 <Cupon>
                   <CuponTextInput
                     placeholder="CUPON"
@@ -156,7 +156,7 @@ const ProductDetails: React.FC = ({route}) => {
                     <Icon name="check" color="#eee" size={32} />
                   </CuponButton>
                 </Cupon>
-              )}
+              )} */}
             </DetaisTop>
           </Detais>
         </Content>

@@ -35,7 +35,14 @@ export const Name = styled.Text.attrs({
   width: ${(props) => props.userWidth}px;
 `;
 
-export const HeaderButton = styled.TouchableOpacity``;
+export const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const HeaderButton = styled.TouchableOpacity`
+  margin-right: 15px;
+`;
 
 export const HeaderButtonText = styled.Text`
   font-size: 18px;

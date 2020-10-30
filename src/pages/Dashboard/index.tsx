@@ -10,6 +10,7 @@ import {
   HeaderText,
   ProfileButton,
   Name,
+  Row,
   HeaderButton,
   HeaderButtonText,
 } from './styles';
@@ -41,9 +42,14 @@ const Dashboard: React.FC = () => {
             <Icon name="edit" size={14} color="#eee" />
           </ProfileButton>
         </HeaderText>
-        <HeaderButton onPress={() => navigation.navigate('Favorites')}>
-          <HeaderButtonText>Meus Favoritos</HeaderButtonText>
-        </HeaderButton>
+        <Row>
+          <HeaderButton onPress={() => navigation.navigate('Favorites')}>
+            <HeaderButtonText>Meus Favoritos</HeaderButtonText>
+          </HeaderButton>
+          <HeaderButton onPress={() => navigation.navigate('Cupons')}>
+            <HeaderButtonText>Meus Cupons</HeaderButtonText>
+          </HeaderButton>
+        </Row>
       </Header>
     </Container>
   );
