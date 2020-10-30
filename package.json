@@ -30,7 +30,6 @@
     "eslint-plugin-react-hooks": "^4",
     "react": "16.13.1",
     "react-native": "0.63.3",
-    "react-native-camera": "^3.40.0",
     "react-native-code-push": "^6.3.0",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-permissions": "^2.2.2",
