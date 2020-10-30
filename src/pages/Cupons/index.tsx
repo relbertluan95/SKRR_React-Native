@@ -1,5 +1,7 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
+import database from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import {useNavigation} from '@react-navigation/native';
@@ -28,10 +30,35 @@ import {
   ModalButtonText,
 } from './styles';
 
+interface CuponsProps {
+  id: string;
+  title: string;
+  valid: string;
+  valor: string;
+  useded: boolean;
+}
+
 const Cupons: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [cupons, setCupons] = useState<CuponsProps[]>([]);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    async function loadData() {
+      const uid = await auth().currentUser?.uid;
+
+      await database()
+        .ref(`users/${uid}/cupons`)
+        .once('value')
+        .then((snapshot) => {
+          setCupons(snapshot.val());
+          console.log(snapshot.val());
+        });
+    }
+
+    loadData();
+  }, []);
 
   const handleModal = useCallback(() => {
     setModalVisible(!modalVisible);
@@ -96,22 +123,24 @@ const Cupons: React.FC = () => {
         <HeaderTitle>Meus Cupons</HeaderTitle>
       </Header>
       <Container>
-        <Cupon>
-          <Top>
-            <CuponTitle>25% off em todos os itens da loja</CuponTitle>
-          </Top>
-          <Bottom>
-            <Left>
-              <Info>25% OFF</Info>
-              <Date>Válido até 30/12/2020</Date>
-            </Left>
-            <Rigth>
-              <Button onPress={handleModal}>
-                <ButtonText>Usar</ButtonText>
-              </Button>
-            </Rigth>
-          </Bottom>
-        </Cupon>
+        {cupons.map((item) => (
+          <Cupon key={item.id}>
+            <Top>
+              <CuponTitle>{item.title}</CuponTitle>
+            </Top>
+            <Bottom>
+              <Left>
+                <Info>{`${item.valor}% OFF`}</Info>
+                <Date>{`Válido até ${item.valid}`}</Date>
+              </Left>
+              <Rigth>
+                <Button onPress={handleModal}>
+                  <ButtonText>Usar</ButtonText>
+                </Button>
+              </Rigth>
+            </Bottom>
+          </Cupon>
+        ))}
       </Container>
     </>
   );

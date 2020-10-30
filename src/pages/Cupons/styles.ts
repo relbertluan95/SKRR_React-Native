@@ -36,10 +36,9 @@ export const HeaderTitle = styled.Text`
 
 export const Cupon = styled.View`
   width: 100%;
-
   border-radius: 10px;
-
   background: #999;
+  margin-bottom: 15px;
 `;
 export const Top = styled.View`
   width: 100%;
