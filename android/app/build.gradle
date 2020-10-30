@@ -35,6 +35,9 @@ android {
         multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'
     }
+    dexOptions {
+       javaMaxHeapSize "3g"
+    }
     splits {
         abi {
             reset()
